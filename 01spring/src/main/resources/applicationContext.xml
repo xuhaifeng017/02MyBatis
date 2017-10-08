@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+     <bean id="service"  class="cn.happy.day.HappyService">
+          <property name="info" value="ghjbhjhjv"></property>
+     </bean>
+      <bean id="ink" class="cn.happy.day02.link.ColorInk"></bean>
+     <bean id="paper" class="cn.happy.day02.paper.A4Paper"></bean>
+
+     <bean id="print" class="cn.happy.day02.printer.Print">
+          <property name="ink" ref="ink"></property>
+          <property name="paper" ref="paper"></property>
+     </bean>
+
+</beans>

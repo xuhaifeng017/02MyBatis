@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <beans xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd "
+            xmlns:aop="http://www.springframework.org/schema/aop"
+            xmlns:p="http://www.springframework.org/schema/p"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://www.springframework.org/schema/beans">
+
+           <bean id="mycoll" class="cn.happy.day05.MyCollection">
+
+               <property name="map">
+                   <map>
+                       <entry key="001">
+                           <value>allala</value>
+                       </entry>
+                       <entry key="002">
+                           <value>haha</value>
+                       </entry>
+                   </map>
+               </property>
+               <property name="properties">
+                   <props>
+                       <prop key="001">haha</prop>
+                       <prop key="002">dsda</prop>
+                   </props>
+               </property>
+
+               <property name="array">
+                   <array>
+                       <value>李小龙</value>
+                       <value>成龙</value>
+                   </array>
+               </property>
+               <property name="list">
+                   <list>
+                   <value>李小龙l</value>
+                   <value>成龙list</value>
+                   </list>
+               </property>
+               <property name="set">
+                   <set>
+                       <value>hah</value>
+                       <value>dudu</value>
+                   </set>
+               </property>
+           </bean>
+
+</beans>
