@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.happy.dao.IUserInfoDao">
+
+    <resultMap id="myUserInfo" type="UserInfo">
+        <id property="userid" column="userid"></id>
+        <result property="username" column="username"></result>
+        <result property="userpwd" column="userpwd"></result>
+    </resultMap>
+    <sql id="colums">
+        userid,username,userpwd
+    </sql>
+     <!--一对多一条sql-->
+    <resultMap id="myresult" type="Result">
+        <id column="resultno" property="result"></id>
+        <result column="resultname" property="resultname"></result>
+        <collection property="userlist" ofType="UserInfo">
+            <id column="userid" property="userid"></id>
+            <result column="username" property="username"></result>
+        </collection>
+    </resultMap>
+   <select id="getallss" resultMap="myresult">
+       SELECT result.`resultno`,resultname,userid,username FROM result,userin WHERE result.`resultno`=userin.`resultno` AND resultno=${resultno}
+   </select>
+    <!--一对多多条sql-->
+  <!-- <resultMap id="mymaaper" type="Result">
+       <id column="resultno" property="result"></id>
+       <result column="resultname" property="resultname"></result>
+       <collection property="userlist" ofType="UserInfo" select="getid" column="resultno">
+       </collection>
+   </resultMap>
+
+    <select id="getid" resultType="UserInfo">
+        SELECT * FROM userin WHERE userid=#{userid}
+    </select>
+
+
+    <select id="getallss" resultMap="mymaaper">
+        SELECT * FROM result WHERE resultno=#{resultno}
+    </select>-->
+
+
+
+
+    <select id="getAllList"  resultMap="myUserInfo">
+        select <include refid="colums"></include> from userin
+    </select>
+    <select id="getByuserid"  resultType="UserInfo" parameterType="int">
+        select * from userin WHERE userid=#{userid}
+    </select>
+    <insert id="insertList" parameterType="UserInfo" useGeneratedKeys="true" keyProperty="userid">
+        INSERT INTO  userin(username,userpwd) VALUE (#{username},#{userpwd})
+       <!-- <selectKey resultType="int" keyProperty="userid">
+            SELECT @@IDENTITY
+        </selectKey>-->
+    </insert>
+    <update id="updateuser" parameterType="UserInfo">
+        UPDATE userin SET username=#{username},userpwd=#{userpwd} WHERE userid=#{userid}
+    </update>
+    <delete id="deleteuser" parameterType="UserInfo">
+        DELETE  FROM userin WHERE userid=#{userid}
+    </delete>
+    <select id="getmohuAll" resultType="UserInfo" >
+       <!-- SELECT * FROM  userin WHERE username LIKE '%' #{username} '%'-->
+        SELECT * FROM  userin WHERE username LIKE CONCAT('%',#{username},'%')
+    </select>
+    <select id="getfindAll" resultType="UserInfo">
+        SELECT * FROM  userin where username like '%' #{username} '%' and userid>=#{userid}
+    </select>
+    <select id="getfindAlls" resultType="UserInfo">
+        SELECT * FROM  userin where username like '%' #{0} '%' and userid>=#{1}
+    </select>
+    <!--智能标签if-->
+    <select id="getmohuAlls" resultType="UserInfo" >
+        SELECT * FROM  userin
+        <where>
+            <if test="username!=null">
+                AND username LIKE CONCAT('%',#{username},'%')
+            </if>
+            <if test="userid!=null">
+                 and userid>=#{userid}
+            </if>
+        </where>
+    </select>
+    <!--智能标签foreach-->
+    <select id="getarrayAllList" resultType="UserInfo">
+         SELECT * FROM  userin
+         <where>
+               <if test="array.length>0">
+                   userid IN
+                   <foreach collection="array" open="(" close=")" separator="," item="userid">
+                       #{userid}
+                   </foreach>
+               </if>
+         </where>
+    </select>
+    <!--智能标签chonse-->
+    <select id="getmohuAlls1" resultType="UserInfo">
+        SELECT * FROM  userin
+        <where>
+        <choose>
+            <when test="username!=null">
+                AND username LIKE CONCAT('%',#{username},'%')
+            </when>
+            <otherwise>
+                and  userid=6
+            </otherwise>
+        </choose>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.happy.dao.ITeacherDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+    <resultMap id="teacherMapper" type="Teacher">
+        <id column="tid" property="tid"></id>
+        <result column="tname" property="tname"></result>
+        <collection property="list" ofType="Student" >
+            <id column="cid" property="cid"></id>
+            <result property="sname" column="sname"></result>
+        </collection>
+    </resultMap>
+    <select id="getTeacherById" resultMap="teacherMapper">
+         SELECT tname,sname FROM teacher66,student66,teacher_student66
+         WHERE teacher66.`tid`=teacher_student66.`tid`
+         AND student66.`sid`=teacher_student66.`sid`
+         AND teacher66.`tid`=#{tid}
+    </select>
+
+    <select id="getfindAll" resultType="Teacher">
+        SELECT  *  FROM  teacher66
+    </select>
+
+    <select id="getfindAll2" resultType="Teacher">
+         SELECT  * FROM teacher66
+    </select>
+
+</mapper>
